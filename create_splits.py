@@ -21,6 +21,7 @@ def split(data_dir):
     try:
         files = [filename for filename in glob.glob(f'{data_dir}/*.tfrecord')]
     except Exception as error:
+        logger.info('Access files is not possible!')
         print('Access files is not possible!')
     
     # Shuffle files
@@ -42,10 +43,10 @@ def split(data_dir):
     try:
         if not os.path.exists(train):
             os.makedirs(train)
-            print("Directory '%s' created" %train)
+            logger.info("Directory '%s' created" %train)
     except:
         os.makedirs(train, exist_ok = True)
-        print("Directory '%s' exists" %train)
+        logger.info("Directory '%s' exists" %train)
         
     # Move the train files to folder {data_dir}/train
     # font: https://docs.python.org/3/library/shutil.html
@@ -55,10 +56,10 @@ def split(data_dir):
     try:
         if not os.path.exists(val):
             os.makedirs(val)
-            print("Directory '%s' created" %val)
+            logger.info("Directory '%s' created" %val)
     except:
         os.makedirs(train, exist_ok = True)
-        print("Directory '%s' exists" %val)
+        logger.info("Directory '%s' exists" %val)
         
     # Move the validation files to folder {data_dir}/val
     for file in files_val:
@@ -68,10 +69,10 @@ def split(data_dir):
     try:
         if not os.path.exists(test):
             os.makedirs(test)
-            print("Directory '%s' created" %test)
+            logger.info("Directory '%s' created" %test)
     except:
         os.makedirs(train, exist_ok = True)
-        print("Directory '%s' exists" %test)
+        logger.info("Directory '%s' exists" %test)
     
     # Move the test files to folder {data_dir}/test
     for file in files_val:
