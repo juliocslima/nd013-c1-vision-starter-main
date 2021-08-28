@@ -19,19 +19,23 @@ def split(data_dir):
     """
     # Get data from file
     try:
-        files = [filename for filename in glob.glob(f'{data_dir}/*.tfrecord')]
+        files = [filename for filename in glob.glob(f'{data_dir}/processed/*.tfrecord')]
     except Exception as error:
         logger.info('Access files is not possible!')
-        print('Access files is not possible!')
     
     # Shuffle files
     np.random.shuffle(files)
     
-    # Split files in: Train, validation and test
-    files_train, files_val, files_test = np.split(files, [int(.75*len(files)), int(.9*len(files))])
+    # Split files in: Train (80%), validation (10%) and test (10%)
+    files_train, files_val, files_test = np.split(files, [int(.8*len(files)), int(.9*len(files))])
     
     # Test size of split files               
     assert len(files) == len(files_train) + len(files_val) + len(files_test)
+    
+    print('number of files: ', len(files))
+    print('number of files: ', len(files_train))
+    print('number of files: ', len(files_val))
+    print('number of files: ', len(files_test))    
     
     # create directories and move the files
     train = os.path.join(data_dir, 'train')
@@ -75,7 +79,7 @@ def split(data_dir):
         logger.info("Directory '%s' exists" %test)
     
     # Move the test files to folder {data_dir}/test
-    for file in files_val:
+    for file in files_test:
         shutil.move(file, test)
     
 
